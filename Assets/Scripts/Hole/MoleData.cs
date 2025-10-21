@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class Mole
+public class MoleData
 {
     public float Time;
     public int Hole;

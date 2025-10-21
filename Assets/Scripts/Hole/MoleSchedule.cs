@@ -2,12 +2,12 @@
 
 public class MoleSchedule
 {
-    public Mole[] Moles;
+    public MoleData[] Moles;
     private int holeCount;
 
     public MoleSchedule(int moleCount, int holeCount)
     {
-        Moles = new Mole[moleCount];
+        Moles = new MoleData[moleCount];
         this.holeCount = holeCount;
         SetMolesNew();
         SetMolesTime();
@@ -18,7 +18,7 @@ public class MoleSchedule
     {
         for (int i = 0; i < Moles.Length; i++)
         {
-            Moles[i] = new Mole();
+            Moles[i] = new MoleData();
         }
     }
 

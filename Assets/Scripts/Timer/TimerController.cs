@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using R3;
 using System.Threading;
+using UnityEngine;
 
 public class TimerController : MonoBehaviour
 {
@@ -14,7 +14,9 @@ public class TimerController : MonoBehaviour
     [SerializeField] GameTimerUI gameTimerUI;
     [SerializeField] PreTimerUI preTimerUI;
 
-    private void Start()
+    public ReadOnlyReactiveProperty<bool> IsPreparationFinished => preparationTime.IsFinished;
+
+    private void Awake()
     {
         // 初期化
         preparationTime = new PreparationTime();
@@ -22,7 +24,10 @@ public class TimerController : MonoBehaviour
 
         gameTime = new GameTime(GameDuration);
         gameTime.Reset();
+    }
 
+    private void Start()
+    {
         // UI更新の処理
         gameTime.Time.Subscribe(t => gameTimerUI.UpdateTimer(t)).AddTo(this);
         preparationTime.Time.Subscribe(t => preTimerUI.UpdateTimer(t)).AddTo(this);
@@ -49,7 +54,7 @@ public class TimerController : MonoBehaviour
         while (!ct.IsCancellationRequested)
         {
             await UniTask.Delay(1000, cancellationToken: ct);
-            if (preparationTime.IsFinished.CurrentValue)
+            if (IsPreparationFinished.CurrentValue)
             {
                 gameTime.Tick();
             }
