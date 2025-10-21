@@ -2,6 +2,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using R3;
 using System.Threading;
+using System;
 
 public class TimerController : MonoBehaviour
 {
@@ -9,20 +10,28 @@ public class TimerController : MonoBehaviour
     private PreparationTime preparationTime;
     private CancellationTokenSource cts;
 
+    [SerializeField] GameTimerUI gameTimerUI;
+    [SerializeField] PreTimerUI preTimerUI;
+
     private void Start()
     {
+        // ‰Šú‰»
         preparationTime = new PreparationTime();
         preparationTime.Reset();
 
         gameTime = new GameTime();
         gameTime.Reset();
 
-        //ŠÔØ‚ê‚Ìˆ—
+        // UIXV‚Ìˆ—
+        gameTime.Time.Subscribe(t => gameTimerUI.UpdateTimer(t)).AddTo(this);
+        preparationTime.Time.Subscribe(t => preTimerUI.UpdateTimer(t)).AddTo(this);
+
+        // ŠÔØ‚ê‚Ìˆ—
         gameTime.IsTimeUp
             .Where(b => b)
             .Take(1)
             .Subscribe(_ => TimeUp());
-        //–ˆ•b‚Ìˆ—
+        // –ˆ•b‚Ìˆ—
         StartGameTimer();
     }
 
@@ -42,7 +51,6 @@ public class TimerController : MonoBehaviour
             if (preparationTime.IsFinished.CurrentValue)
             {
                 gameTime.Tick();
-                Debug.Log(gameTime.Time);
             }
             else
             {
