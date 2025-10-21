@@ -1,4 +1,4 @@
-using R3;
+﻿using R3;
 
 public class GameTime
 {
@@ -7,9 +7,9 @@ public class GameTime
 
     public ReadOnlyReactiveProperty<bool> IsTimeUp { get; private set; }
 
-    public GameTime()
+    public GameTime(int gameDuration)
     {
-        time = new ReactiveProperty<int>(10);
+        time = new ReactiveProperty<int>(gameDuration);
         IsTimeUp = time.Select(t => (t <= 0)).ToReadOnlyReactiveProperty(false);
     }
 

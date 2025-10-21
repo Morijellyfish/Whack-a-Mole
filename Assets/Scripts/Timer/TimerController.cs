@@ -1,11 +1,12 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using Cysharp.Threading.Tasks;
 using R3;
 using System.Threading;
-using System;
 
 public class TimerController : MonoBehaviour
 {
+    public const int GameDuration = 10;
+
     private GameTime gameTime;
     private PreparationTime preparationTime;
     private CancellationTokenSource cts;
@@ -15,23 +16,23 @@ public class TimerController : MonoBehaviour
 
     private void Start()
     {
-        // ‰Šú‰»
+        // åˆæœŸåŒ–
         preparationTime = new PreparationTime();
         preparationTime.Reset();
 
-        gameTime = new GameTime();
+        gameTime = new GameTime(GameDuration);
         gameTime.Reset();
 
-        // UIXV‚Ìˆ—
+        // UIæ›´æ–°ã®å‡¦ç†
         gameTime.Time.Subscribe(t => gameTimerUI.UpdateTimer(t)).AddTo(this);
         preparationTime.Time.Subscribe(t => preTimerUI.UpdateTimer(t)).AddTo(this);
 
-        // ŠÔØ‚ê‚Ìˆ—
+        // æ™‚é–“åˆ‡ã‚Œã®å‡¦ç†
         gameTime.IsTimeUp
             .Where(b => b)
             .Take(1)
             .Subscribe(_ => TimeUp());
-        // –ˆ•b‚Ìˆ—
+        // æ¯ç§’ã®å‡¦ç†
         StartGameTimer();
     }
 
@@ -55,7 +56,6 @@ public class TimerController : MonoBehaviour
             else
             {
                 preparationTime.Tick();
-                Debug.Log(preparationTime.Time);
             }
         }
     }
