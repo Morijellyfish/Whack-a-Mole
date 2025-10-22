@@ -12,6 +12,11 @@ public class Mole : MonoBehaviour
         gameObject.SetActive(true);
     }
 
+    public void Despawn()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void Tap()
     {
         gameObject.SetActive(false);

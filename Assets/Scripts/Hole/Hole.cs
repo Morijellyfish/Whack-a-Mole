@@ -31,7 +31,7 @@ public class Hole : MonoBehaviour
     public async UniTaskVoid DespawnMole(float duration)
     {
         await UniTask.Delay((int)(duration * 1000), cancellationToken: despawnCts.Token);
-        mole.Tap();
+        mole.Despawn();
     }
 
     public void TapMole()
