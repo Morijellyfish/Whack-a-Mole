@@ -1,10 +1,15 @@
-﻿using R3;
+﻿using Cysharp.Threading.Tasks;
+using R3;
 using R3.Triggers;
+using System.Threading;
 using UnityEngine;
 
 public class Hole : MonoBehaviour
 {
     [SerializeField] Mole mole;
+
+
+    private CancellationTokenSource despawnCts;
 
     private void Start()
     {
@@ -14,9 +19,19 @@ public class Hole : MonoBehaviour
             .AddTo(this);
     }
 
-    public void SpawnMole()
+    public void SpawnMole(float duration)
     {
+        despawnCts?.Cancel();
+        despawnCts?.Dispose();
         mole.Spawn();
+        despawnCts = new();
+        DespawnMole(duration).Forget();
+    }
+
+    public async UniTaskVoid DespawnMole(float duration)
+    {
+        await UniTask.Delay((int)(duration * 1000), cancellationToken: despawnCts.Token);
+        mole.Tap();
     }
 
     public void TapMole()

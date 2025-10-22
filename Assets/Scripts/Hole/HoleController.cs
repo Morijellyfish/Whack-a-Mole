@@ -25,13 +25,13 @@ public class HoleController : MonoBehaviour
     {
         for (int i = 0; i < moleSchedule.Moles.Length; i++)
         {
-            SpawnMole(moleSchedule.Moles[i].Hole, moleSchedule.Moles[i].Time).Forget();
+            SpawnMole(moleSchedule.Moles[i]).Forget();
         }
     }
 
-    private async UniTaskVoid SpawnMole(int index, float delay)
+    private async UniTaskVoid SpawnMole(MoleData mole)
     {
-        await UniTask.Delay(System.TimeSpan.FromSeconds(delay));
-        holes.SpawnMole(index);
+        await UniTask.Delay(System.TimeSpan.FromSeconds(mole.Time));
+        holes.SpawnMole(mole.Hole, mole.Duration);
     }
 }

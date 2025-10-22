@@ -4,8 +4,8 @@ public class Holes : MonoBehaviour
 {
     [SerializeField] private Hole[] holes;
 
-    public void SpawnMole(int holeIndex)
+    public void SpawnMole(int holeIndex, float duration)
     {
-        holes[holeIndex].SpawnMole();
+        holes[holeIndex].SpawnMole(duration);
     }
 }

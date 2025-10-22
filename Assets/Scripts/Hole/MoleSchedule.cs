@@ -11,6 +11,7 @@ public class MoleSchedule
         this.holeCount = holeCount;
         SetMolesNew();
         SetMolesTime();
+        SetMolesDuration();
         SetMolesHole();
     }
 
@@ -32,15 +33,24 @@ public class MoleSchedule
         }
     }
 
+    private void SetMolesDuration()
+    {
+        for (int i = 0; i < Moles.Length; i++)
+        {
+            Moles[i].Duration = Random.Range(0.8f, 1.5f);
+        }
+    }
+
+    // この方法だと0.5sec以内に複数のもぐらが出る場合処理できない。
     private void SetMolesHole()
     {
         for (int i = 0; i < Moles.Length; i++)
         {
             Moles[i].Hole = Random.Range(0, holeCount);
-            //一つ前のモグラと同じ穴かつ時間が近い場合、再度穴を決定する
+            // 一つ前のモグラと同じ穴かつ時間が近い場合、再度穴を決定する、0.5secは空けたい
             if (i > 0 &&
                 Moles[i].Hole == Moles[i - 1].Hole &&
-                Mathf.Abs(Moles[i].Time - Moles[i - 1].Time) < 0.5f)
+                Moles[i - 1].Time + Moles[i - 1].Duration > Moles[i].Time - 0.5f)
             {
                 Moles[i].Hole = RandomExcept(holeCount, Moles[i - 1].Hole, 10);
             }
@@ -56,4 +66,5 @@ public class MoleSchedule
             return r == forbidden ? RandomExcept(max, forbidden, attemptsLeft - 1) : r;
         }
     }
+
 }
