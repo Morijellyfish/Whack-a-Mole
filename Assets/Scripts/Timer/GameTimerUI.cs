@@ -8,5 +8,4 @@ public class GameTimerUI : MonoBehaviour
     {
         timerText.text = $"Time: {time:00}";
     }
-
 }

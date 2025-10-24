@@ -8,7 +8,6 @@ public class Hole : MonoBehaviour
 {
     [SerializeField] Mole mole;
 
-
     private CancellationTokenSource despawnCts;
 
     private void Start()

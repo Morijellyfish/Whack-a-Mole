@@ -47,7 +47,7 @@ public class MoleSchedule
         float[] holesTime = new float[holeCount];
         for (int i = 0; i < holeCount; i++)
         {
-            holesTime[i] = -1; // 初期化
+            holesTime[i] = -1; // 初期化は0秒出現を考慮して-1
         }
 
         foreach (var mole in Moles)
@@ -64,5 +64,4 @@ public class MoleSchedule
             holesTime[mole.Hole] = mole.AppearanceTime + mole.Duration + margin;
         }
     }
-
 }

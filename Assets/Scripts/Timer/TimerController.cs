@@ -36,6 +36,7 @@ public class TimerController : MonoBehaviour
             .Where(b => b)
             .Take(1)
             .Subscribe(_ => TimeUp());
+
         // 毎秒の処理
         StartGameTimer();
     }
