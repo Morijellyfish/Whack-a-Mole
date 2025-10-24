@@ -10,7 +10,7 @@ public class MoleSchedule
         Moles = new MoleData[moleCount];
         this.holeCount = holeCount;
         SetMolesNew();
-        SetMolesTime();
+        SetMolesAppearanceTime();
         SetMolesDuration();
         SetMolesHole();
     }
@@ -23,13 +23,13 @@ public class MoleSchedule
         }
     }
 
-    private void SetMolesTime()
+    private void SetMolesAppearanceTime()
     {
         float baseTime = ((float)TimerController.GameDuration - 0.8f) / Moles.Length;
         for (int i = 0; i < Moles.Length; i++)
         {
             float r = Random.Range(-baseTime / 2, baseTime / 2);
-            Moles[i].Time = Mathf.Max((baseTime * i) + r, 0);
+            Moles[i].AppearanceTime = Mathf.Max((baseTime * i) + r, 0);
         }
     }
 
@@ -41,29 +41,27 @@ public class MoleSchedule
         }
     }
 
-    // この方法だと0.5sec以内に複数のもぐらが出る場合処理できない。
     private void SetMolesHole()
     {
-        for (int i = 0; i < Moles.Length; i++)
+        float margin = 1.5f;
+        float[] holesTime = new float[holeCount];
+        for (int i = 0; i < holeCount; i++)
         {
-            Moles[i].Hole = Random.Range(0, holeCount);
-            // 一つ前のモグラと同じ穴かつ時間が近い場合、再度穴を決定する、0.5secは空けたい
-            if (i > 0 &&
-                Moles[i].Hole == Moles[i - 1].Hole &&
-                Moles[i - 1].Time + Moles[i - 1].Duration > Moles[i].Time - 0.5f)
-            {
-                Moles[i].Hole = RandomExcept(holeCount, Moles[i - 1].Hole, 10);
-            }
+            holesTime[i] = -1; // 初期化
         }
 
-        int RandomExcept(int max, int forbidden, int attemptsLeft = 10)
+        foreach (var mole in Moles)
         {
-            if (attemptsLeft <= 0) //最悪のケース
+            mole.Hole = Random.Range(0, holeCount);
+            int attempts = 10; // 最悪のケース防止の回数制限
+            while (attempts > 0 && (holesTime[mole.Hole] >= mole.AppearanceTime))
             {
-                return 0;
+                // 他の穴を探す
+                int originalHole = mole.Hole;
+                mole.Hole = Random.Range(0, holeCount);
+                attempts--;
             }
-            int r = Random.Range(0, max);
-            return r == forbidden ? RandomExcept(max, forbidden, attemptsLeft - 1) : r;
+            holesTime[mole.Hole] = mole.AppearanceTime + mole.Duration + margin;
         }
     }
 

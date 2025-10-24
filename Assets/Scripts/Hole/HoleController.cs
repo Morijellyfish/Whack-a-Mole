@@ -31,7 +31,7 @@ public class HoleController : MonoBehaviour
 
     private async UniTaskVoid SpawnMole(MoleData mole)
     {
-        await UniTask.Delay(System.TimeSpan.FromSeconds(mole.Time));
+        await UniTask.Delay(System.TimeSpan.FromSeconds(mole.AppearanceTime));
         holes.SpawnMole(mole.Hole, mole.Duration);
     }
 }

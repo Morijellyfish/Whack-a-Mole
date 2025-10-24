@@ -1,6 +1,6 @@
 ﻿public class MoleData
 {
-    public float Time;
+    public float AppearanceTime;
     public int Hole;
     public float Duration;
 }
