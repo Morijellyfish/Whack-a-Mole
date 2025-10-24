@@ -20,9 +20,4 @@ public class GameTime
             time.Value--;
         }
     }
-
-    public void Reset()
-    {
-        time.Value = 10;
-    }
 }

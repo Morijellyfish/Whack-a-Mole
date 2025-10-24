@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TimerController : MonoBehaviour
 {
-    public const int GameDuration = 10;
+    public const int GameDuration = 30;
 
     private GameTime gameTime;
     private PreparationTime preparationTime;
@@ -23,7 +23,6 @@ public class TimerController : MonoBehaviour
         preparationTime.Reset();
 
         gameTime = new GameTime(GameDuration);
-        gameTime.Reset();
     }
 
     private void Start()
