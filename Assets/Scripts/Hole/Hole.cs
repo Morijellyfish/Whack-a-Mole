@@ -36,6 +36,7 @@ public class Hole : MonoBehaviour
 
     public void TapMole()
     {
+        ScoreController.Instance.AddScore();
         mole.Tap();
     }
 }
